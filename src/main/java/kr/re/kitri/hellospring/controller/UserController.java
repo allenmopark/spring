@@ -21,6 +21,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	
 	@GetMapping("/greet")
 	@ResponseBody
 	public String hello() {
@@ -44,6 +45,7 @@ public class UserController {
 	
 	// 사용자 등록 
 	@PostMapping("/users")
+	@ResponseBody
 	public User registUser(@RequestBody User user) {
 		return user;
 	}
