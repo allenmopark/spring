@@ -47,7 +47,7 @@ public class UserController {
 	@PostMapping("/users")
 	@ResponseBody
 	public User registUser(@RequestBody User user) {
-		return user;
+		return userService.registUser(user);
 	}
 	
 	

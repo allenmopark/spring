@@ -1,8 +1,13 @@
 package kr.re.kitri.hellospring.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.re.kitri.hellospring.model.User;
@@ -10,11 +15,20 @@ import kr.re.kitri.hellospring.model.User;
 @Repository
 public class UserDao {
 	
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
 	public User selectUserByKey(Integer userId) {
-		
-		// 데이터를 확보.. from anywhere..
-		
-		User user = new User(userId, "김순곤", 40);
+		String sql = "select * from where userid=?";
+		User user = jdbcTemplate.queryForObject(sql, new RowMapper<User>() {
+
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		}, userId);
 		return user;
 	}
 	
@@ -27,6 +41,12 @@ public class UserDao {
 		listOfUser.add(new User(5, "lee", 40));
 		listOfUser.add(new User(6, "kim", 40));
 		return listOfUser;
+	}
+	
+	public User insertUser(User user) {
+		String sql = "INSERT INTO user(userid, username, age) VALUES (?,?,?)";
+		jdbcTemplate.update(sql, user.getUserid(), user.getUsername(), user.getAge());
+		return user;
 	}
 
 }
