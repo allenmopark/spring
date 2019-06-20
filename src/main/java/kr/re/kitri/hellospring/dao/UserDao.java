@@ -20,13 +20,12 @@ public class UserDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	public User selectUserByKey(Integer userId) {
-		String sql = "select * from where userid=?";
+		String sql = "select * fro spring.user where userid=?";
 		User user = jdbcTemplate.queryForObject(sql, new RowMapper<User>() {
 
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
-				return null;
+				return new User(rs.getInt(1), rs.getString(2), rs.getInt(3));
 			}
 		}, userId);
 		return user;

@@ -2,6 +2,8 @@ package kr.re.kitri.hellospring.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ import kr.re.kitri.hellospring.service.UserService;
 
 @Controller
 public class UserController {
+	
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private UserService userService;
@@ -47,6 +51,7 @@ public class UserController {
 	@PostMapping("/users")
 	@ResponseBody
 	public User registUser(@RequestBody User user) {
+	    log.debug("사용자 등록 시작");
 		return userService.registUser(user);
 	}
 	
