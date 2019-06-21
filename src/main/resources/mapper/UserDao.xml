@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.re.kitri.hellospring.dao.UserDao">
+
+  <insert id="insertUser">
+  	INSERT INTO spring.user(
+  		userid
+  	   ,username
+  	   ,age
+  	   ) VALUES (
+  	    #{userid}
+  	   ,#{username}
+  	   ,#{age}
+  	   )
+  </insert>
+  
+  <select id="selectUserByKey" 
+  			parameterType="int" 
+			resultType="kr.re.kitri.hellospring.model.User">
+  	select userid
+  	      ,username
+  	      ,age 
+  	from spring.user 
+  	where userid = #{userId}
+  </select>
+  
+  <select id="selectAllUsers" 
+  			parameterType="int" 
+			resultType="kr.re.kitri.hellospring.model.User">
+  	select userid		userid
+  	      ,username		username
+  	      ,age			age
+  	From user
+  </select> 
+   
+  <select id="selectUserByUsername" 
+  		  parameterType="int" 
+		  resultType="kr.re.kitri.hellospring.model.User">
+  	select userid, username, age
+  	From user
+  	WHERE username = #{username}
+  </select>
+</mapper>

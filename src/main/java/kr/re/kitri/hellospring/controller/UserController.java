@@ -18,9 +18,11 @@ import kr.re.kitri.hellospring.model.User;
 import kr.re.kitri.hellospring.service.UserService;
 
 @Controller
+@ResponseBody
 public class UserController {
 	
-	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private static final Logger log = 
+			LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private UserService userService;
@@ -34,14 +36,12 @@ public class UserController {
 	
 	// 사용자 전체 보기 
 	@GetMapping("/users")
-	public List<User> getAllUsers(@RequestParam(value="page", defaultValue="0") int page) {
-		System.out.println("page number=" + page);
+	public List<User> getAllUsers() {
 		return userService.searchUsers();
 	}
 		
 		// 사용자 상세 보기 
 	@GetMapping("/users/{userId}")
-	@ResponseBody
 	public User getUsersById(@PathVariable Integer userId) {
 		System.out.println(userId + ".. from path variable");
 		return userService.searchUserByUserid(userId);
@@ -49,14 +49,17 @@ public class UserController {
 	
 	// 사용자 등록 
 	@PostMapping("/users")
-	@ResponseBody
 	public User registUser(@RequestBody User user) {
 	    log.debug("사용자 등록 시작");
 		return userService.registUser(user);
 	}
 	
-	
-	
+	// 사용자 조회 by username
+	@GetMapping("/users/username/{username}") 
+	public List<User> searchUserByUsername(@PathVariable String username){
+		return userService.searchUserByUsername(username);
+	}
+	 	
 	// 사용자 수정 
 	// 사용자 삭제 
 

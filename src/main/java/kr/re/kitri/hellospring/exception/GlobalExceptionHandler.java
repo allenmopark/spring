@@ -13,6 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class GlobalExceptionHandler {
 	
+	@ExceptionHandler(value=BizException.class)
+	@ResponseBody
+	public Map<String, Object> handleBizException(SQLException e) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("error", true);
+		map.put("msg",e.getMessage());
+		map.put("error_code",120);
+		return map;
+	}
+	
 	@ExceptionHandler(value=SQLException.class)
 	@ResponseBody
 	public String handleSQLException(SQLException e) {

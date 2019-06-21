@@ -9,5 +9,7 @@ public interface UserService {
 	User searchUserByUserid(Integer userId);
 	List<User> searchUsers();
 	User registUser(User user);
+	List<User> searchUserByUsername(String username);
+	
 
 }

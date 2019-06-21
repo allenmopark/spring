@@ -15,11 +15,11 @@ import kr.re.kitri.hellospring.model.User;
 public class UserDaoTests {
 	
 	@Autowired
-	private UserDao userDao;
+	private UserDao_spring_jdbc userDao;
 
 	@Test
 	public void testInsertUser() {
-		User user = new User(500,"테스트임",100);
+		User user = new User(500,"테스트임",1000);
 	    User returned = userDao.insertUser(user);
 	    // Assert.assertTrue(user.getUserid()==returned.getUserid());
 	    Assert.assertNotNull(returned);

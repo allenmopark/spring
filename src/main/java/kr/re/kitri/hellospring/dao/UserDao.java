@@ -1,13 +1,10 @@
 package kr.re.kitri.hellospring.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.re.kitri.hellospring.model.User;
@@ -15,37 +12,32 @@ import kr.re.kitri.hellospring.model.User;
 @Repository
 public class UserDao {
 	
-	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private SqlSession sqlSession;
+	
+	public User insertUser(User user) {
+		int updated = sqlSession.update(
+				"kr.re.kitri.hellospring.dao.UserDao.insertUser", 
+				user);
+		return user;
+	}
 	
 	public User selectUserByKey(Integer userId) {
-		String sql = "select * fro spring.user where userid=?";
-		User user = jdbcTemplate.queryForObject(sql, new RowMapper<User>() {
-
-			@Override
-			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new User(rs.getInt(1), rs.getString(2), rs.getInt(3));
-			}
-		}, userId);
+		User user = sqlSession.selectOne(
+				"kr.re.kitri.hellospring.dao.UserDao.selectUserByKey", userId);
 		return user;
 	}
 	
 	public List<User> selectAllUsers(){
-		List<User> listOfUser = new ArrayList<>();
-		listOfUser.add(new User(1, "김순곤", 40));
-		listOfUser.add(new User(2, "yoon", 40));
-		listOfUser.add(new User(3, "kwon", 40));
-		listOfUser.add(new User(4, "choi", 40));
-		listOfUser.add(new User(5, "lee", 40));
-		listOfUser.add(new User(6, "kim", 40));
+		List<User> listOfUser = sqlSession.selectList(
+				"kr.re.kitri.hellospring.dao.UserDao.selectAllUsers");
 		return listOfUser;
 	}
-	
-	public User insertUser(User user) {
-		String sql = "INSERT INTO user(userid, username, age) VALUES (?,?,?)";
-		jdbcTemplate.update(sql, user.getUserid(), user.getUsername(), user.getAge());
-		return user;
+
+	public List<User> selectUserByUsername(String username) {
+		return sqlSession.selectList(
+				"kr.re.kitri.hellospring.dao.UserDao.selectUserByUsername", 
+				username);
 	}
 
 }
