@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.jsonwebtoken.SignatureException;
+
 @ControllerAdvice
 @Controller
 public class GlobalExceptionHandler {
@@ -47,9 +49,17 @@ public class GlobalExceptionHandler {
 		return e.getMessage();
 	}
 
+	@ExceptionHandler(value=SignatureException.class)
+	@ResponseBody
+	public Map<String, Object> handleSignatureException() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("error", "인증 실패");
+		return map;
+	}
+	
 	@ExceptionHandler(value=Exception.class)
 	@ResponseBody
-	public String handleException(NumberFormatException e) {
+	public String handleException(Exception e) {
 		return e.getMessage();
 	}	
 	
